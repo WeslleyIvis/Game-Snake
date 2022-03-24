@@ -19,6 +19,7 @@ body {
     transition: .8s;
     position: absolute;
     margin-top: 50px;
+    margin-right: 50px;
 }
 
 .style-block {
