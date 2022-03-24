@@ -1,0 +1,29 @@
+body {
+    margin: 0;
+    padding: 0;
+}
+
+.canvas {
+    height: 500px;
+    width: 330px;
+    background: rgba(159, 159, 189, 0.418);
+    position: relative;
+    margin: 0 auto;
+    margin-top: 15%;
+}
+
+.snake {
+    height: 10px;
+    width: 10px;
+    background: green;
+    transition: .8s;
+    position: absolute;
+    margin-top: 50px;
+}
+
+.style-block {
+    background-color: azure;
+    height: 10px;
+    width: 10px;
+    position: absolute;
+}
