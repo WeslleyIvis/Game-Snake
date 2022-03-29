@@ -4,8 +4,8 @@ body {
 }
 
 .canvas {
-    height: 500px;
-    width: 330px;
+    height: 100px;
+    width: 100px;
     background: rgba(159, 159, 189, 0.418);
     position: relative;
     margin: 0 auto;
