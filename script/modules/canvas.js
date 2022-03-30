@@ -35,9 +35,8 @@ export default class Canvas {
 
   // Gera um valor aleatorio.
   randomValue(valueMax) {
-    const max = Math.floor(valueMax);
-    const min = Math.ceil(0); // A função Math.ceil(x) retorna o menor número inteiro maior ou igual a "x". (Math.ceil(-7.004); // -7)
-    // console.log(Math.floor(Math.random() * (max - min + 1)));
+    const min = Math.ceil(0);
+    const max = Math.floor(valueMax - 10); // A função Math.ceil(x) retorna o menor número inteiro maior ou igual a "x". (Math.ceil(-7.004); // -7)
     return Math.floor((Math.random() * (max - min + 1)) / 10);
   }
 
@@ -48,22 +47,27 @@ export default class Canvas {
     return this.canvas.appendChild(block);
   }
 
-  bindElement() {
+  bindEvents() {
     this.moviment = this.moviment.bind(this);
   }
 
   addEvents() {
-    document.addEventListener('keyup', this.moviment);
+    document.addEventListener('keydown', this.moviment);
   }
 
   // Adiciona movimento para snake em pxs definido no = 'this.movimentPX'
-  moviment(direction = this.direction) {
-    this.direction = direction.key;
-    this.bloker(this.snake.x, this.snake.y, this.direction);
-    this.getCords();
-    this.collision(this.snake.x, this.snake.y);
+  moviment({ key } = this.direction) {
+    const validKey = ['ArrowRight', 'ArrowLeft', 'ArrowUp', 'ArrowDown'];
+
+    if (validKey.includes(key)) {
+      this.bloker(this.snake.x, this.snake.y, key);
+      this.getCords();
+      this.collision(this.snake.x, this.snake.y);
+      this.getBody();
+    }
     return;
   }
+
   // (blocker) não deixa o objeto snake ultrapassar o canvas em pxs.
   bloker(valueX, valueY, direction) {
     if (
@@ -98,6 +102,7 @@ export default class Canvas {
     }
   }
 
+  // Colisão da snake com o bloco
   collision(valueX, valueY) {
     if (valueX === this.block.x && valueY === this.block.y) {
       this.snake.bodySnake.push(this.block.blocks[0]);
@@ -106,22 +111,26 @@ export default class Canvas {
     }
   }
 
-  getCords() {
-    this.snake.cords.push(this.snake.x, this.snake.y);
-    console.log(this.snake.cords);
-    console.log(this.snake.bodySnake.length * 2);
-    console.log(this.snake.cords.length);
-    console.log(this.snake.cords.length >= this.snake.bodySnake.length * 2);
+  getBody() {
+    this.snake.bodySnake.forEach((body, index) => {
+      body.style.marginLeft = this.snake.cords[index].x + 'px';
+      body.style.marginTop = this.snake.cords[index].y + 'px';
+    });
+  }
 
-    let i = 0;
-    if (this.snake.bodySnake.length * 2 >= this.snake.cords.length) {
-    } else {
-      // while (this.snake.cords.length >= this.snake.bodySnake.length * 2) this.snake.cords.shift()
+  // pega as cordenadas / Limpa as cordenadas da snake
+  getCords() {
+    console.log(this.snake.cords);
+    let i = this.snake.bodySnake.length;
+
+    for (; this.snake.cords.length > i; ) {
+      this.snake.cords.shift();
     }
+    this.snake.cords.push({ x: this.snake.x, y: this.snake.y });
   }
 
   init() {
-    this.bindElement();
+    this.bindEvents();
     this.creatBlock();
     this.addEvents();
     return;
