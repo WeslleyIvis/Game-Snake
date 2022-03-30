@@ -16,10 +16,11 @@ body {
     height: 10px;
     width: 10px;
     background: green;
-    transition: .8s;
+    /* transition: .8s; */
     position: absolute;
     margin-top: 50px;
     margin-right: 50px;
+    z-index: 50;
 }
 
 .style-block {
