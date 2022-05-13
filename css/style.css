@@ -29,3 +29,7 @@ body {
     width: 10px;
     position: absolute;
 }
+
+.ativo {
+    background-color: rgb(110, 247, 110);
+}
