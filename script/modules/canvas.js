@@ -15,6 +15,7 @@ export default class Canvas {
     this.snake = {
       element: document.querySelector(snake),
       bodySnake: [],
+      headCord: [],
       cords: [],
       x: 0,
       y: 0,
@@ -25,11 +26,27 @@ export default class Canvas {
   creatBlock() {
     const x = this.widthCanvas;
     const y = this.heightCanvas;
+
     let block = document.createElement('div');
     block.classList.add('style-block');
     block.style.marginLeft = this.randomValue(x) * 10 + 'px';
     block.style.marginTop = this.randomValue(y) * 10 + 'px';
 
+    this.snake.cords.forEach((cord, index) => {
+      // console.log(cord.x, 'x');
+      // console.log(cord.y, 'y');
+      // console.log(this.snake.cords);
+
+      while (
+        cord.x === +block.style.marginLeft.replace('px', '') &&
+        cord.y === +block.style.marginTop.replace('px', '')
+      ) {
+        block.style.marginLeft = this.randomValue(x) * 10 + 'px';
+        block.style.marginTop = this.randomValue(y) * 10 + 'px';
+
+        console.log(cord, index, 'igual');
+      }
+    });
     return this.setBlock(block);
   }
 
@@ -113,6 +130,7 @@ export default class Canvas {
 
   getBody() {
     this.snake.bodySnake.forEach((body, index) => {
+      body.classList.add('ativo');
       body.style.marginLeft = this.snake.cords[index].x + 'px';
       body.style.marginTop = this.snake.cords[index].y + 'px';
     });
@@ -120,9 +138,7 @@ export default class Canvas {
 
   // pega as cordenadas / Limpa as cordenadas da snake
   getCords() {
-    console.log(this.snake.cords);
     let i = this.snake.bodySnake.length;
-
     for (; this.snake.cords.length > i; ) {
       this.snake.cords.shift();
     }
